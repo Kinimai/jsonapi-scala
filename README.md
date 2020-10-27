@@ -72,7 +72,7 @@ val filtered = jac.filter[BillingAccount]("some nice filter string here")
 ```scala
 // needs ActorSystem and Materializer for akka-http
 // the ApiEndPoint is used to as the "root" where to launch queries
-import com.netaporter.uri.dsl._
+import io.lemonlabs.uri.typesafe.dsl._
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import com.qvantel.jsonapi.ApiEndpoint
@@ -89,7 +89,7 @@ val jac = JsonApiClient.instance
 #### http4s client
 Setup for http4s client
 ```scala
-import com.netaporter.uri.dsl._
+import io.lemonlabs.uri.typesafe.dsl._
 import org.http4s.client.Client
 import org.http4s.client.blaze.Http1Client
 import cats.effect.IO

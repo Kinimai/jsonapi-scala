@@ -1,13 +1,14 @@
 package com.qvantel.jsonapi
 
-import com.netaporter.uri.Uri
+import io.lemonlabs.uri.Url
+import io.lemonlabs.uri.typesafe.dsl._
 
 /**
   * Case class for handling the top level pagination links in collection responses
   *
   * @param originalUri The URI (relative or absolute) of the original incoming request, complete with all query parameters
   */
-case class JsonApiPagination(originalUri: Uri,
+case class JsonApiPagination(originalUri: Url,
                              private val firstParams: Map[String, String] = Map.empty,
                              private val lastParams: Map[String, String] = Map.empty,
                              private val prevParams: Map[String, String] = Map.empty,
@@ -44,7 +45,7 @@ case class JsonApiPagination(originalUri: Uri,
   /**
     * Returns all non empty pagination links in a map
     */
-  def allLinksAsUris: Map[String, Uri] =
+  def allLinksAsUris: Map[String, Url] =
     Map(
       "first" -> buildPaginationUri(firstParams),
       "last"  -> buildPaginationUri(lastParams),
@@ -52,7 +53,7 @@ case class JsonApiPagination(originalUri: Uri,
       "next"  -> buildPaginationUri(nextParams)
     ).flatMap { case (name, maybeUri) => maybeUri.map(uri => name -> uri) }
 
-  private[this] def buildPaginationUri(pageParams: Map[String, String]): Option[Uri] =
+  private[this] def buildPaginationUri(pageParams: Map[String, String]): Option[Url] =
     if (pageParams.isEmpty)
       None
     else
@@ -66,5 +67,5 @@ object JsonApiPagination {
   type PaginationFunc = Long => JsonApiPagination
   val EmptyFunc: PaginationFunc = _ => Empty
 
-  val Empty = new JsonApiPagination(Uri.empty)
+  val Empty = new JsonApiPagination("")
 }
